@@ -85,25 +85,50 @@ monogatari.script({
 		{
 			Choice: {
 				Dialog: "y What should she do?",
-				Yes: {
+				Tell: {
 					Text: "Tell her about todays incident.",
 					Do: "jump Tell"
 				},
-				No: {
-					Text: "No",
-					Do: "jump No"
+				Silence: {
+					Text: "Silence",
+					Do: "jump Silence"
 				},
 				Hint: {
-					Text: "Tell manager",
-					Do: ""
+					Text: "Leave anonymous hint.",
+					Do: "jump Hint"
 				},
 			}
 		}
 	],
 
 	Tell: [
-		"y Thats awesome!", "y Then you are ready to go ahead and create an amazing Game!", "y I can’t wait to see what story you’ll tell!", "end"
+		"n You decided to tell your friend!",
+		"y Sorry friend, I was not supposed to tell you but...",
+		"n You retell your story.",
+		"e Thank you for telling me. How they dared to fire me? I'll show them.",
+		"n Immediately your friend went to manager with complains.",
+		"e I work every day, make all that you want from me and you...",
+		"n Manager was angry on you.",
+		"m You fired.",
+		"end"
 	],
 
-	Silence: ["y You can do it now.", "show message Help", "y Go ahead and create an amazing Game!", "y I can’t wait to see what story you’ll tell!", "end"]
+	Silence: [
+		"n You decided to keep information to yourself.",
+		"n Your friend was fired from her job, and she went through all kind of problems in life.",
+		"n She was force to move to another state.",
+		"n After some time you stop talking.",
+		"n But on your job you get promotion and soon you was able to afford to buy a new car.",
+		"end"
+	],
+	
+	Hint: [
+		"n You decide to leave anonymous hint to your friend.",
+		"n You friend went to the manager with complains.",
+		"n She was fired but dont bought a car.",
+		"n You still best friends.",
+		"n Manager guessed that you leave hint.",
+		"n He was newer able to proof it",
+		"n But your position in work became unbearable and soon you decided to live your job."
+	]
 });
