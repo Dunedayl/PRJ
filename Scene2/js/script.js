@@ -39,7 +39,7 @@ monogatari.configuration('credits', {
 
 // Define the images that will be available on your game's image gallery
 monogatari.assets('gallery', {
-
+	'character': 'character_1.jpg'
 });
 
 // Define the music used in the game.
@@ -132,7 +132,8 @@ monogatari.script({
 	],
 
 	'Silent': [
-		'n You made the right choice. Never tell stories about your corporate business in private conversation.'
+		'n You made the right choice. Never tell stories about your corporate business in private conversation.',
+		'end'
 	],
 
 	'Tell': [

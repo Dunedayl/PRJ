@@ -129,6 +129,7 @@ monogatari.script({
 		"n You still best friends.",
 		"n Manager guessed that you leave hint.",
 		"n He was newer able to proof it",
-		"n But your position in work became unbearable and soon you decided to live your job."
+		"n But your position in work became unbearable and soon you decided to live your job.",
+		"end"
 	]
 });
