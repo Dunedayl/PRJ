@@ -39,7 +39,7 @@ monogatari.configuration('credits', {
 
 // Define the images that will be available on your game's image gallery
 monogatari.assets('gallery', {
-	'character': 'character_1.jpg'
+
 });
 
 // Define the music used in the game.
@@ -69,7 +69,10 @@ monogatari.assets('images', {
 
 // Define the backgrounds for each scene.
 monogatari.assets('scenes', {
-
+	bar: 'bar.png',
+	printShop: 'printShop.png',
+	printShopInside: 'printShopInside.png',
+	office: 'officeCabinet.png'
 });
 
 
@@ -78,17 +81,28 @@ monogatari.characters({
 	'n': {
 		name: 'Narator',
 		color: '#ffffff',
+	},
+	'char': {
+		name: 'Tony Benson',
+		color: '#ffffff',
+		sprites: {
+			normal: 'character_1.png',
+		}
 	}
+
 });
 
 monogatari.script({
 	// The game starts here.
 	'Start': [
-		'show scene #f7f6f6 with fadeIn',
-		'show notification Welcome',
+		'show scene printShop with fadeIn',
+		'jump choices',
+		'show character char normal at right with fadeIn',
 		'n Your name is Tony Benson. You are working in the print shop at PricewaterhouseCoopers LLP.',
 		'n You takes pride in what you does, and you feels that you makes a contribution to the various products that go out the door representing the firm.',
 		'n Every once in a while, you catches a problem, which gives him a sense of real satisfaction.',
+		'show scene printShopInside with fadeIn',
+		'show character char normal at right with fadeIn',
 		'n For example, last week you noticed a typo on the cover of a report you was given to copy. It was an assessment of a potential merger between two major companies in the financial services area.',
 		{
 			'Choice': {
@@ -109,12 +123,17 @@ monogatari.script({
 		'n You decided to do nothing with mistake.',
 		'n Contract between firms was cancelled because of this error.',
 		'n You were fired for your incompetence.',
-		'end'
+		"n That was wrong choice, remember always double check data in search of other people's mistakes.",
+		"n Even if it was not your fault it doesn't mean you should not fix it.",
+		"n Now lets see what you should do in this situation.",
+		'jump Correct'
 	],
 
 	'Correct': [
 		'n You corrected mistake',
 		'n You felt that you had saved the firm considerable embarrassment – if not more – by catching the mistake.',
+		'show scene bar with fadeIn',
+		'show character char normal at right with fadeIn',
 		'n After work you went to bar with your friend from company.',
 		{
 			'Choice': {
@@ -133,7 +152,8 @@ monogatari.script({
 
 	'Silent': [
 		'n You made the right choice. Never tell stories about your corporate business in private conversation.',
-		'end'
+		'n Now lets see what happen if you tell this story to your friends',
+		'jump Tell'
 	],
 
 	'Tell': [
@@ -144,30 +164,72 @@ monogatari.script({
 				'Dialog': 'What should Benson do?',
 				'Do nothing': {
 					'Text': 'Dont tell your boss about accident.',
-					'Do': 'jump Do nothing'
+					'Do': 'jump nothing'
 				},
 				'Silent': {
 					'Text': 'Tell your boss about accident.',
-					'Do': 'jump Tell boss'
+					'Do': 'jump GoToBoss'
 				}
 			}
 		}
 	],
 
-	'Do nothing': [
+	'nothing': [
+		'show scene office with fadeIn',
+		'show character char normal at right with fadeIn',
 		'n You decided to keep all of this as a secret.',
 		'n You company was very upset because of date leak.',
 		'n They started internal investigation and filed lawsuit against newspaper.',
 		'n Newspaper was forced to tell company story behind data leaks.',
-		'n You were fired for leak of confidential data and receive bad records on your personal file.'
+		'n You were fired for leak of confidential data and receive bad records on your personal file.',
+		'n Thats a bad way of solving this problem',
+		'n Now lets take a look at better way to do it',
+		'jump GoToBoss'
 	],
 
-	'Tell boss': [
+	'GoToBoss': [
+		'show scene office with fadeIn',
+		'show character char normal at right with fadeIn',
 		'n You decided to tell you bos story about data leak.',
 		'n You were put under investigation and was expected to be fired, but because of your honest confession they agreed to keep this incident of record.',
 		'n But because you company know source of data leak and does not start expensive procedure of internal investigation and after stock price of your company goes up due news about acquisition, they decided to not fire you.',
-		'n You receive some warnings and was obligated to visit corporate ethic courses. But in the end you realise that you made the right choice.'
+		'n You receive some warnings and was obligated to visit corporate ethic courses. But in the end you realise that you made the right choice.',
+		'jump choices'
 	],
+
+	'choices': [
+		{
+			'Input': {
+				'Text': 'What should be done with someone who makes a mistake like this?',
+				'Type': 'radio',
+				'Options': [
+					{
+						label: 'Pink',
+						value: 'pink',
+					},
+					{
+						label: 'Red',
+						value: 'red',
+					}
+				],
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					// Save the favorite color in the storage
+					monogatari.storage({ player: { q1: input } });
+				},
+				'Revert': () => {
+					// Reset the favorite color property
+					monogatari.storage({ player: { favorite_color: '' } });
+				},
+				'Warning': 'You must select a color.'
+			}
+		},
+		'n asd',
+		'n {{ player.q1 }}',
+		'end'
+	]
 
 
 });
