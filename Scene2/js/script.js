@@ -80,13 +80,27 @@ monogatari.assets('scenes', {
 monogatari.characters({
 	'n': {
 		name: 'Narator',
-		color: '#ffffff',
+		color: '#3dc5ff',
 	},
-	'char': {
+	'tony': {
 		name: 'Tony Benson',
-		color: '#ffffff',
+		color: '#18326a',
 		sprites: {
-			normal: 'character_1.png',
+			normal: 'tony.png',
+		}
+	},
+	'interested': {
+		name: 'Interested Person',
+		color: '#f39a15',
+		sprites: {
+			normal: 'interested_person_1.png',
+		}
+	},
+	'boss': {
+		name: 'Your boss',
+		color: '#f39a15',
+		sprites: {
+			normal: 'manager_1.png',
 		}
 	}
 
@@ -96,13 +110,12 @@ monogatari.script({
 	// The game starts here.
 	'Start': [
 		'show scene printShop with fadeIn',
-		'jump choices',
-		'show character char normal at right with fadeIn',
+		'show character tony normal at right with fadeIn',
 		'n Your name is Tony Benson. You are working in the print shop at PricewaterhouseCoopers LLP.',
 		'n You takes pride in what you does, and you feels that you makes a contribution to the various products that go out the door representing the firm.',
 		'n Every once in a while, you catches a problem, which gives him a sense of real satisfaction.',
 		'show scene printShopInside with fadeIn',
-		'show character char normal at right with fadeIn',
+		'show character tony normal at right with fadeIn',
 		'n For example, last week you noticed a typo on the cover of a report you was given to copy. It was an assessment of a potential merger between two major companies in the financial services area.',
 		{
 			'Choice': {
@@ -123,18 +136,18 @@ monogatari.script({
 		'n You decided to do nothing with mistake.',
 		'n Contract between firms was cancelled because of this error.',
 		'n You were fired for your incompetence.',
-		"n That was wrong choice, remember always double check data in search of other people's mistakes.",
+		"n That was wrong choice, remember always double check data in search for other people's mistakes.",
 		"n Even if it was not your fault it doesn't mean you should not fix it.",
 		"n Now lets see what you should do in this situation.",
 		'jump Correct'
 	],
 
 	'Correct': [
-		'n You corrected mistake',
+		'n You corrected mistake.',
 		'n You felt that you had saved the firm considerable embarrassment – if not more – by catching the mistake.',
 		'show scene bar with fadeIn',
-		'show character char normal at right with fadeIn',
 		'n After work you went to bar with your friend from company.',
+		'show character tony normal at right with fadeIn',
 		{
 			'Choice': {
 				'Dialog': 'n Should you tell them your story?',
@@ -158,7 +171,13 @@ monogatari.script({
 
 	'Tell': [
 		'n The problem is that Benson is the one who is embarrassed now.',
-		'n Over a drink after work with some - PricewaterhouseCoopers LLP friends, Benson reported his good deed, mentioning the names of two high - profile financial firms being assessed.',
+		'n Over a drink after work with some - PricewaterhouseCoopers LLP friends, you reported your good deed, mentioning the names of two high - profile financial firms being assessed.',
+		'show character interested normal at left with fadeIn',
+		'n One of the people in the group, someone you did not know well, seemed particularly interested.',
+		'n When he asked a question about the content of the report, you began to feel uneasy and quickly changed the conversation.',
+		'n This morning, the front page of the newspaper carried a brief story about the potential merger. It cited a confidential source. You is afraid that it might have been him.',
+		'n What should you do?',
+		'show scene office with fadeIn',
 		{
 			'Choice': {
 				'Dialog': 'What should Benson do?',
@@ -176,7 +195,7 @@ monogatari.script({
 
 	'nothing': [
 		'show scene office with fadeIn',
-		'show character char normal at right with fadeIn',
+		'show character tony normal at right with fadeIn',
 		'n You decided to keep all of this as a secret.',
 		'n You company was very upset because of date leak.',
 		'n They started internal investigation and filed lawsuit against newspaper.',
@@ -189,7 +208,8 @@ monogatari.script({
 
 	'GoToBoss': [
 		'show scene office with fadeIn',
-		'show character char normal at right with fadeIn',
+		'show character tony normal at right with fadeIn',
+		'show character boss normal at left with fadeIn',
 		'n You decided to tell you bos story about data leak.',
 		'n You were put under investigation and was expected to be fired, but because of your honest confession they agreed to keep this incident of record.',
 		'n But because you company know source of data leak and does not start expensive procedure of internal investigation and after stock price of your company goes up due news about acquisition, they decided to not fire you.',
@@ -200,24 +220,19 @@ monogatari.script({
 	'choices': [
 		{
 			'Input': {
-				'Text': 'What should be done with someone who makes a mistake like this?',
-				'Type': 'radio',
-				'Options': [
-					{
-						label: 'Pink',
-						value: 'pink',
-					},
-					{
-						label: 'Red',
-						value: 'red',
-					}
-				],
+				'Text': 'How do we want people to handle situations where they have made a mistake?',
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					monogatari.storage({ player: { q1: input } });
+				},
 				'Validation': (input) => {
 					return input.trim().length > 0;
 				},
 				'Save': (input) => {
 					// Save the favorite color in the storage
-					monogatari.storage({ player: { q1: input } });
+					monogatari.storage({ player: { q: input } });
 				},
 				'Revert': () => {
 					// Reset the favorite color property
@@ -226,10 +241,121 @@ monogatari.script({
 				'Warning': 'You must select a color.'
 			}
 		},
-		'n asd',
-		'n {{ player.q1 }}',
+		{
+			'Input': {
+				'Text': 'What obligation is there to report this potential breach of confidentiality?',
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					monogatari.storage({ player: { q2: input } });
+				},
+				'Revert': () => {
+					monogatari.storage({ player: { name: '' } });
+				},
+				'Warning': 'You must enter a name!'
+			}
+		},
+		{
+			'Input': {
+				'Text': 'What should be done with someone who makes a mistake like this?',
+				'Type': 'radio',
+				'Options': [
+					{
+						label: 'He must be fired',
+						value: 'fired',
+					},
+					{
+						label: 'It is not enough reason for dismissal.',
+						value: 'no',
+					},
+					{
+						label: 'It is not enough reason for dismissal.',
+						value: 'no',
+					}
+				],
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					monogatari.storage({ player: { q3: input } });
+				},
+				'Revert': () => {
+					monogatari.storage({ player: { name: '' } });
+				},
+				'Warning': 'You must enter a name!'
+			}
+		},
+		{
+			'Input': {
+				'Text': 'Does the fact that the person is an administrative staff member affect the situation?',
+				'Type': 'radio',
+				'Options': [
+					{
+						label: 'Yes',
+						value: 'yes',
+					},
+					{
+						label: 'No',
+						value: 'no',
+					}
+				],
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					// Save the favorite color in the storage
+					monogatari.storage({ player: { q4: input } });
+				},
+				'Revert': () => {
+					// Reset the favorite color property
+					monogatari.storage({ player: { favorite_color: '' } });
+				},
+				'Warning': 'You must select a color.'
+			}
+		},
+		{
+			'Input': {
+				'Text': 'What should Benson do?',
+				'Type': 'radio',
+				'Options': [
+					{
+						label: 'Tell to company',
+						value: 'tell',
+					},
+					{
+						label: 'Keep silence',
+						value: 'silence',
+					}
+				],
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					// Save the favorite color in the storage
+					monogatari.storage({ player: { q5: input } });
+				},
+				'Revert': () => {
+					// Reset the favorite color property
+					monogatari.storage({ player: { favorite_color: '' } });
+				},
+				'Warning': 'You must select a color.'
+			}
+		},
+		{
+			'Function': {
+				'Apply': () => {
+					const person = monogatari.storage('person');
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", 'http://localhost:1488/', true);
+					xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+					xhr.send(JSON.stringify({
+						value: person
+					}));
+				}
+			},
+		},
 		'end'
-	]
-
+	],
 
 });
