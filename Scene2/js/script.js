@@ -220,6 +220,25 @@ monogatari.script({
 	'choices': [
 		{
 			'Input': {
+				'Text': 'Please enter your name.',
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Save': (input) => {
+					monogatari.storage({ player: { name: input } });
+				},
+				'Validation': (input) => {
+					return input.trim().length > 0;
+				},
+				'Revert': () => {
+					// Reset the favorite color property
+					monogatari.storage({ player: { favorite_color: '' } });
+				},
+				'Warning': 'You must enter your name.'
+			}
+		},
+		{
+			'Input': {
 				'Text': 'How do we want people to handle situations where they have made a mistake?',
 				'Validation': (input) => {
 					return input.trim().length > 0;
@@ -232,13 +251,13 @@ monogatari.script({
 				},
 				'Save': (input) => {
 					// Save the favorite color in the storage
-					monogatari.storage({ player: { q: input } });
+					monogatari.storage({ player: { q1: input } });
 				},
 				'Revert': () => {
 					// Reset the favorite color property
-					monogatari.storage({ player: { favorite_color: '' } });
+					monogatari.storage({ player: { q1: '' } });
 				},
-				'Warning': 'You must select a color.'
+				'Warning': 'You must enter your answer.'
 			}
 		},
 		{
@@ -253,7 +272,7 @@ monogatari.script({
 				'Revert': () => {
 					monogatari.storage({ player: { name: '' } });
 				},
-				'Warning': 'You must enter a name!'
+				'Warning': 'You must enter your answer.'
 			}
 		},
 		{
@@ -270,8 +289,8 @@ monogatari.script({
 						value: 'no',
 					},
 					{
-						label: 'It is not enough reason for dismissal.',
-						value: 'no',
+						label: 'It is not enough reason for dismissal, but some sanctions need to be implemented.',
+						value: 'sanctions',
 					}
 				],
 				'Validation': (input) => {
@@ -281,9 +300,9 @@ monogatari.script({
 					monogatari.storage({ player: { q3: input } });
 				},
 				'Revert': () => {
-					monogatari.storage({ player: { name: '' } });
+					monogatari.storage({ player: { q3: '' } });
 				},
-				'Warning': 'You must enter a name!'
+				'Warning': 'You must select!'
 			}
 		},
 		{
@@ -304,14 +323,12 @@ monogatari.script({
 					return input.trim().length > 0;
 				},
 				'Save': (input) => {
-					// Save the favorite color in the storage
 					monogatari.storage({ player: { q4: input } });
 				},
 				'Revert': () => {
-					// Reset the favorite color property
-					monogatari.storage({ player: { favorite_color: '' } });
+					monogatari.storage({ player: { q4: '' } });
 				},
-				'Warning': 'You must select a color.'
+				'Warning': 'You must select.'
 			}
 		},
 		{
@@ -337,20 +354,20 @@ monogatari.script({
 				},
 				'Revert': () => {
 					// Reset the favorite color property
-					monogatari.storage({ player: { favorite_color: '' } });
+					monogatari.storage({ player: { q5: '' } });
 				},
-				'Warning': 'You must select a color.'
+				'Warning': 'You must select.'
 			}
 		},
 		{
 			'Function': {
 				'Apply': () => {
-					const person = monogatari.storage('person');
+					const player = monogatari.storage('player');
 					var xhr = new XMLHttpRequest();
-					xhr.open("POST", 'http://localhost:1488/', true);
+					xhr.open("POST", 'http://localhost:2599/scene2', true);
 					xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 					xhr.send(JSON.stringify({
-						value: person
+						"value": player
 					}));
 				}
 			},
