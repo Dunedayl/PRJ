@@ -3,6 +3,10 @@
 // Persistent Storage Variable
 monogatari.storage ({
 	player: {
-		name: 'Tina Wilson '
+		name: "",
+		q1: "",
+		q2: "",
+		q3: "",
+		q4: "",
 	}
 });

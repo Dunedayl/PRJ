@@ -79,8 +79,8 @@ monogatari.assets('scenes', {
 // Define the Characters
 monogatari.characters({
 	'n': {
-		name: 'Narator',
-		color: '#3dc5ff',
+		name: 'Narrator',
+		color: '#0047ab',
 	},
 	'tony': {
 		name: 'Tony Benson',
@@ -231,8 +231,7 @@ monogatari.script({
 					return input.trim().length > 0;
 				},
 				'Revert': () => {
-					// Reset the favorite color property
-					monogatari.storage({ player: { favorite_color: '' } });
+					monogatari.storage({ player: { name: '' } });
 				},
 				'Warning': 'You must enter your name.'
 			}
@@ -250,11 +249,9 @@ monogatari.script({
 					return input.trim().length > 0;
 				},
 				'Save': (input) => {
-					// Save the favorite color in the storage
 					monogatari.storage({ player: { q1: input } });
 				},
 				'Revert': () => {
-					// Reset the favorite color property
 					monogatari.storage({ player: { q1: '' } });
 				},
 				'Warning': 'You must enter your answer.'
@@ -270,7 +267,7 @@ monogatari.script({
 					monogatari.storage({ player: { q2: input } });
 				},
 				'Revert': () => {
-					monogatari.storage({ player: { name: '' } });
+					monogatari.storage({ player: { q2: '' } });
 				},
 				'Warning': 'You must enter your answer.'
 			}
