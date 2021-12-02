@@ -213,9 +213,6 @@ monogatari.script({
 				'Validation': (input) => {
 					return input.trim().length > 0;
 				},
-				'Save': (input) => {
-					monogatari.storage({ player: { q2: input } });
-				},
 				'Revert': () => {
 					monogatari.storage({ player: { q2: '' } });
 				},
