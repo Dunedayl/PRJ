@@ -112,8 +112,8 @@ monogatari.script({
 		'show scene printShop with fadeIn',
 		'show character tony normal at right with fadeIn',
 		'n Your name is Tony Benson. You are working in the print shop at PricewaterhouseCoopers LLP.',
-		'n You takes pride in what you does, and you feels that you makes a contribution to the various products that go out the door representing the firm.',
-		'n Every once in a while, you catches a problem, which gives him a sense of real satisfaction.',
+		'n You take pride in what you do, and you feel that you make a contribution to the various products that go out the door representing the firm.',
+		'n Every once in a while, you catch a problem, which gives you a sense of real satisfaction.',
 		'show scene printShopInside with fadeIn',
 		'show character tony normal at right with fadeIn',
 		'n For example, last week you noticed a typo on the cover of a report you was given to copy. It was an assessment of a potential merger between two major companies in the financial services area.',
@@ -364,7 +364,7 @@ monogatari.script({
 					xhr.open("POST", 'http://localhost:2599/scene2', true);
 					xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 					xhr.send(JSON.stringify({
-						"value": player
+						player
 					}));
 				}
 			},

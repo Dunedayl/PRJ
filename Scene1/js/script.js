@@ -268,7 +268,7 @@ monogatari.script({
 					xhr.open("POST", 'http://localhost:2599/scene1', true);
 					xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 					xhr.send(JSON.stringify({
-						"value": player
+						player
 					}));
 				}
 			},
